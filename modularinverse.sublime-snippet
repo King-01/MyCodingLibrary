@@ -1,0 +1,32 @@
+<snippet>
+	<content><![CDATA[
+ll modinv[N];
+ll powe(ll x, ll y) 
+{ 
+    ll res = 1;
+  
+    x = x % hell;
+
+    while (y > 0) 
+    { 
+        if (y & 1) 
+            res = (res*x) % hell; 
+  
+        y = y>>1; 
+        x = (x*x) % hell; 
+    } 
+    return res; 
+}
+void modinverse()
+{
+	rep(i, 1, N)
+	{
+		modinv[i] = powe(i, hell-2);
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>modularinverse</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

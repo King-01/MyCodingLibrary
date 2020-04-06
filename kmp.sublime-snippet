@@ -1,0 +1,54 @@
+<snippet>
+	<content><![CDATA[
+vi pi(N);
+void prefix_function(string s)
+{
+	ll n = sz(s);
+	pi[0] = 0;
+	rep(i, 1, n)
+	{
+		ll j = pi[i-1];
+		while(j > 0 && s[i] != s[j])
+		{
+			j = pi[j-1];
+		}
+		if(s[i] == s[j])j++;
+		pi[i] = j;
+	}
+	return;
+}
+ll kmp(string s, string t)
+{
+	ll ans = 0;
+	ll i = 0, j = 0;
+	ll n = sz(s);
+	ll m = sz(t);
+	prefix_function(s);
+	while(i < m)
+	{
+		if(s[j] == t[i])
+		{
+			i++;
+			j++;
+		}
+		if(j == n)
+		{
+			ans++;
+			j = pi[j-1];
+		}
+		else if(i < m && s[j] != t[i])
+		{
+			if(j != 0)
+				j = pi[j-1];
+			else
+				i++;
+		}
+	}
+	return ans;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>kmp</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

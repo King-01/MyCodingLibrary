@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+ll p = 31;
+ll p_pow[N], h_s, h_t[N];
+vi occurances;
+void rabin_karp(string const& s, string const& t)
+{
+	ll n = sz(t);
+	ll m = sz(s);
+	p_pow[0] =1;
+	rep(i, 1, N)
+	{
+		p_pow[i] = (p_pow[i-1] * p)%hell;
+	} 
+	h_t[0] = 0;
+	rep(i, 0, n)
+	{
+		h_t[i+1] = (h_t[i] + (t[i] - 'a' + 1)*p_pow[i]) % hell;
+	}
+	h_s = 0;
+	rep(i, 0, m)
+	{
+		h_s = (h_s + (s[i] -'a' + 1)*p_pow[i]) % hell;
+	}
+	rep(i, 0, n-m+1)
+	{
+		ll cur_h = (h_t[i+m] - h_t[i] + hell) % hell;
+		if(cur_h == (h_s * p_pow[i])%hell)
+			occurances.pb(i+1);
+ 	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rabin_carpstringtextmatcher</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
