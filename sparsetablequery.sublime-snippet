@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+ll log1[N], dp[N][26];
+log1[1] = 0;
+rep(i, 2, N)
+	log1[i] = log1[i/2] + 1;
+rep(i, 0, n){
+	dp[i][0] = a[i];
+}
+rep(j, 1, 26)
+{
+	for(ll i = 0; i + (1 << j) <=n; i++)
+	{
+		dp[i][j] = max(dp[i][j-1], dp[i + (1 << (j - 1))][j-1]);
+	}
+}
+
+
+// query portion
+//for range minimum queries
+ll f = log[r - l + 1];
+ll ans = max(dp[l][f], dp[r - (1 << f) + 1][f]);
+//else for sum query
+/*
+ll sum = 0;
+for(ll j = k; j > -1; j--)
+{
+	if((1 << j) <= r - l + 1)
+	{
+		sum += st[l][j];
+		l += 1 << j;
+	}
+}
+*/
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sparsetablequery</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

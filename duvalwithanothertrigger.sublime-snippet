@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+vector<string> duval(string s)
+{
+	vector <string> factorisation;
+	ll n = sz(s);
+	ll i = 0;
+	while(i < n)
+	{
+		ll j = i + 1, comp = i;
+		while(j < n && s[j] <= s[comp])
+		{
+			if(s[j] < s[comp])
+				comp = i;
+			else comp++;
+			j++;
+		}
+		while(i <= comp)
+		{
+			factorisation.pb(s.substr(i, j - comp));
+			i += j - comp;
+		}
+	}
+	return factorisation;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lyndonfactorisation</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+ll p = 31;
+ll hash_val[N], p_pow[N];
+void hasher(string s)
+{
+	ll n= sz(s);
+	hash_val[0] = 0;
+	p_pow[0] = 1;
+	rep(i, 1, n+1)
+	{
+		p_pow[i] = p_pow[i-1] * p;
+		p_pow[i] %= hell;
+	}
+	rep(i, 0, n)
+	{
+		hash_val[i+1] = (hash_val[i] + (s[i] - 'a' + 1) * p_pow[i]) % hell;
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hasher</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,45 @@
+<snippet>
+	<content><![CDATA[
+ll n;
+vi adj[N];
+vector<bool> vis(N);
+vi parent(N);
+vi ways[N];
+vi bfs(ll node)
+{
+    vi dist(n+1);
+    queue<ll> q;
+    q.push(node);
+    dist[node] = 0;
+    vis[node] = true;
+    ways[k] = 1;
+    parent[node] = -1;
+    while(!q.empty())
+    {
+        ll v = q.front();
+        q.pop();
+        for(auto u : adj[v])
+        {
+            if(!vis[u])
+            {
+                vis[u] = 1;
+                q.push(u);
+                dist[u] = dist[v] + 1;
+                ways[u] += ways[node];
+                parent[u] = v;
+            }
+            else
+            {
+                if(dist[v]+1 == dist[u])
+                    ways[u] += ways[v];
+            }
+        }   
+    }
+    return dist;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bfs</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
