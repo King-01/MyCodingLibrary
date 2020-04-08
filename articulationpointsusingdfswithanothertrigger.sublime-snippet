@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+bool vis[N];
+vi low(N) ,tin(N);
+vi adj[N];
+ll timer = 0;
+//  init();
+void init()
+{
+    rep(i, 0, N){
+        vis[i]] = 0;
+        tin[i] = low[i] = -1;
+    }
+}
+void dfs(ll node, ll p = -1)
+{
+    vis[node]=1;
+    low[node] = tin[node] = timer++;
+    ll child = 0;
+    for(auto i:adj[node]){
+        if(i == node)continue;
+        if(!vis[i]){
+            dfs(i);
+            low[node] = min(low[node], low[i]);
+            ++child;
+            // if(low[to] >= tin[v] and p != -1)
+            // {
+            //     is_cutpoint(node); // node is cutpoint;
+            // }
+        }
+        else
+        {
+            low[node] = min(low[node], tin[i]);
+        }
+    }
+    // if(p == -1 and child > 1)iscutpoint(node); //root is cutpoint.
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dfsarticulationpoint</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

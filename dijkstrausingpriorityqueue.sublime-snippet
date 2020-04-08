@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+vi adj[N];
+bool vis[N];
+vi dis(N);
+vi par(N);
+void dijkstra(ll src)
+{
+    dis[src] = 0;
+    priority_queue < pii> q;
+    q.push({0, src});
+    while(!q.empty())
+    {
+        pii cur = q.top();
+        q.pop();
+        if(vis[cur.second])continue;
+        vis[cur.second] = 1;
+        for(auto itr: adj[cur.second])
+        {
+            if(dis[cur.second] - cur.first < dis[itr])
+            {
+                dis[itr] = dis[cur.second] - cur.first;
+                par[itr] = cur.second;
+                q.push({-dis[itr], itr});
+            }
+        }
+    }
+}
+
+void copyfunction()
+{
+    rep(i ,0 , N){
+        dis[i] = inf;
+        par[i] = -1;
+    }
+    rep(i, 0, m)
+    {
+        ll a,b ;
+        cin >> a >> b;
+        adj[a].pb(b);
+        adj[b].pb(a);
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstrausingpriorityqueue</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

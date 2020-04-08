@@ -1,0 +1,62 @@
+<snippet>
+	<content><![CDATA[
+
+vii adj[N];
+vi edge_used;
+vii edge;
+vi tin, low;
+string orient;
+ll bridge_cnt = 0;
+void find_bridges(ll node)
+{
+    static int time = 0;
+    low[node] = tin[node] = time++;
+    for(auto p : adj[node])
+    {
+        if(edge_used[p.second])continue;
+        edge_used[p.second] = true;
+        orient[p.second] = node == edge[p.second].first ? '>' : '<';
+        int nv = p.first;
+        if(tin[nv] == -1)
+        {
+            find_bridges(nv);
+            low[node] = min(low[node], low[nv]);
+            if(low[nv] > low[node])bridge_cnt++;
+        }
+        else
+            low[node] = min(low[node], low[nv]);
+     }
+}
+
+void copyfunction()
+{
+    tin.resize(n+1 ,-1);
+    low.resize(n+1, -1);
+    edge_used.resize(m);
+    edge.resize(m);
+    orient.resize(m);
+    rep(i, 0, m)
+    {
+        ll a, b;
+        cin >> a >> b;
+        adj[a].pb({b, i});
+        adj[b].pb({a, i});
+        edge[i] = {a, b};
+    }
+    ll comp_cnt = 0;
+    rep(i, 1 ,n+1)
+    {
+        if(tin[i] == -1)
+        {
+            comp_cnt++;
+            find_bridges(i);
+        }
+    }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>strongorientation</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

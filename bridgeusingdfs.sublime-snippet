@@ -1,6 +1,5 @@
 <snippet>
 	<content><![CDATA[
-
 bool vis[N];
 vi adj[N];
 ll timer = 0, parent[N];
@@ -8,7 +7,7 @@ ll tin[N], tout[N], low[N];
 
 void dfs(ll node, ll par = -1)
 {
-    tin[node] = timer++;
+    tin[node] = low[node] = timer++;
     vis[node] = 1;
     parent[node] = parent;
      for(auto itr:adj[node])
@@ -21,6 +20,10 @@ void dfs(ll node, ll par = -1)
         else
         {
             low[node] = min(low[node], tin[itr]);
+            // if(low[itr] > tin[node])
+            // {
+            //     is_bridge(node, to);     //this edge is a bridge.
+            // }
         }
     }
     tout[node] = timer++;
@@ -41,7 +44,7 @@ void copypaste()
 
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>dfs</tabTrigger> 
+	<tabTrigger>bridgeusingdfs</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

@@ -55,7 +55,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #define inf                1e18L+1
 #define endl               '\n' 
 #define N                  200005
-
+ll n, m, k, a[N];
 
 
 int32_t main()
@@ -73,7 +73,6 @@ int32_t main()
     // cin >> tests;
     while(tests--)
     {
-        ll n;
         cin >> n;
 
     }
