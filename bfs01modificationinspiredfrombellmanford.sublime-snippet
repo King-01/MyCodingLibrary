@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+
+vii adj[N];
+vi dis(N, inf);
+deque<ll > q;
+
+//time complexity is O(|E|).
+
+void bfs(ll s)
+{
+    dis[s] = 0;
+    q.push_front(s);
+    while(!q.empty())
+    {
+        ll cur = q.front();
+        q.pop_front();
+        for(auto itr : adj[cur])
+        {
+            ll nex = itr.first;
+            ll len = itr.second;
+            if(dis[nex] > len + dis[cur])
+            {
+                dis[nex] = len + dis[cur];
+                if(len == 0)q.push_front(nex);
+                else q.push_back(nex);
+            }
+        }
+    }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bfs01modification</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

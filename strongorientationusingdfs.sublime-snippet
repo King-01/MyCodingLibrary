@@ -30,28 +30,28 @@ void find_bridges(ll node)
 
 void copyfunction()
 {
-    tin.resize(n+1 ,-1);
-    low.resize(n+1, -1);
-    edge_used.resize(m);
-    edge.resize(m);
-    orient.resize(m);
-    rep(i, 0, m)
-    {
-        ll a, b;
-        cin >> a >> b;
-        adj[a].pb({b, i});
-        adj[b].pb({a, i});
-        edge[i] = {a, b};
-    }
-    ll comp_cnt = 0;
-    rep(i, 1 ,n+1)
-    {
-        if(tin[i] == -1)
+        tin.resize(n+1 ,-1);
+        low.resize(n+1, -1);
+        edge_used.resize(m);
+        edge.resize(m);
+        orient.resize(m);
+        rep(i, 0, m)
         {
-            comp_cnt++;
-            find_bridges(i);
+            ll a, b;
+            cin >> a >> b;
+            adj[a].pb({b, i});
+            adj[b].pb({a, i});
+            edge[i] = {a, b};
         }
-    }
+        ll comp_cnt = 0;
+        rep(i, 1 ,n+1)
+        {
+            if(tin[i] == -1)
+            {
+                comp_cnt++;
+                find_bridges(i);
+            }
+        }
 }
 
 ]]></content>

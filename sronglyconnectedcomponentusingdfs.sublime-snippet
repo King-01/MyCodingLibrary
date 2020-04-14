@@ -1,5 +1,10 @@
 <snippet>
 	<content><![CDATA[
+
+
+vi adj[N];
+vi revadj[N];
+
 // prgoram to find condensation grpah of directed graph
 vi adj[N], revadj[N];
 bool vis[N];
@@ -40,36 +45,35 @@ void dfs2(ll node)
 // copy the copy fxn in your main
 void copyfxn()
 {
-        cin >> n >> m;
-        rep( i,0 , m)
+    cin >> n >> m;
+    rep( i,0 , m)
+    {
+        ll a, b;
+        cin >> a >> b;
+        adj[a].pb(b);
+        adj[b].pb(a);
+    }
+    init();
+    rep(i, 1, n+1)
+    {
+        if(!vis[i])dfs1(i);
+    }
+    init();
+    rep(i, 1, n+1)
+    {
+        ll v = order[n - i];
+        if(!vis[v])
         {
-            ll a, b;
-            cin >> a >> b;
-            adj[a].pb(b);
-            adj[b].pb(a);
-        }
-        init();
-        rep(i, 1, n+1)
-        {
-            if(!vis[i])dfs1(i);
-        }
-        init();
-        rep(i, 1, n+1)
-        {
-            ll v = order[n - i];
-            if(!vis[v])
-            {
-                dfs2(v);
-                //your fxn.........
+            dfs2(v);
+            //your fxn.........
 
-                component.clear();
-            }
+            component.clear();
         }
+    }
 }
-
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>condensationgraph</tabTrigger>
+	<tabTrigger>stronglyconnectedcomponentusingdfs</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

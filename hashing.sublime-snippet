@@ -1,5 +1,6 @@
 <snippet>
 	<content><![CDATA[
+
 ll p = 31;
 ll hash_val[N], p_pow[N];
 void hasher(string s)
@@ -14,8 +15,14 @@ void hasher(string s)
 	}
 	rep(i, 0, n)
 	{
-		hash_val[i+1] = (hash_val[i] + (s[i] - 'a' + 1) * p_pow[i]) % hell;
+		hash_val[i+1] = (hash_val[i] + (s[i] - 'a' + 1) * p_pow[n-i-1]) % hell;
 	}
+}
+ll hasherval(ll st ,ll en)
+{
+	if(hash_val[en+1] < hash_val[st])
+		return ((hash_val[en+1] - hash_val[st] + hell)*p_pow[st])%hell;
+	return ((hash_val[en+1] - hash_val[st]) * p_pow[st])% hell;
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

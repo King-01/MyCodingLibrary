@@ -45,7 +45,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #define vi                 vector<ll >
 #define vii                vector<pair<ll , ll >>
 #define si                 set <ll>
-#define hell               1e9L + 7
+#define hell               1000000007
 // #define hell               (ll)998244353
 #define all(a)             (a).begin(),(a).end()
 #define sz(x)              (ll )x.size()
@@ -71,7 +71,7 @@ int32_t main()
     #endif
     ll tests = 1;
     // cin >> tests;
-    while(tests--)
+    rep(test, 1, tests+1)
     {
         cin >> n;
 

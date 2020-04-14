@@ -1,0 +1,64 @@
+<snippet>
+	<content><![CDATA[
+
+vii adj[N];
+vi dis(N, inf);
+vi par(N, -1);
+ll negacyc;
+//average time complexity O(m) but worst time complexity O(mn).
+bool bellmanford(ll s)
+{
+    vi cnt(n ,0);
+    vector<bool> vis(n, 0);
+    queue<ll> q;
+    dis[s] = 0;
+    q.push(s);
+    vis[s] = 1;
+    while(!q.empty())
+    {
+        ll cur = q.front();
+        q.pop();
+        vis[cur] = 0;
+        for(auto nex : adj[cur])
+        {
+            ll node = nex.first;
+            ll len = nex.second;
+            if(dis[node] > dis[cur] + len)
+            {
+                dis[node] = dis[cur] + len;
+                par[node] = cur;
+                if(!vis[node])
+                {
+                    q.push(node);
+                    vis[node] = 1;
+                    cnt[node]++;
+                    if(cnt[node] > n){
+                        negacyc = node;
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+vi getnegativecycle(ll node)
+{
+    ll cur = node;
+    rep(i, 0, n)cur = par[cur];
+    vi path;
+    for(ll i = cur; ; i = par[i])
+    {
+        path.pb(i);
+        if(i == cur and path.size() > 1)break;
+    }
+    reverse(all(path));
+    return path;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bellmanfordnegativecycle</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

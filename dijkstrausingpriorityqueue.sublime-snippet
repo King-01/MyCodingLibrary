@@ -29,22 +29,22 @@ void dijkstra(ll src)
 
 void copyfunction()
 {
-    rep(i ,0 , N){
-        dis[i] = inf;
-        par[i] = -1;
-    }
-    rep(i, 0, m)
-    {
-        ll a,b ;
-        cin >> a >> b;
-        adj[a].pb(b);
-        adj[b].pb(a);
-    }
+        rep(i ,0 , N){
+            dis[i] = inf;
+            par[i] = -1;
+        }
+        rep(i, 0, m)
+        {
+            ll a,b ;
+            cin >> a >> b;
+            adj[a].pb(b);
+            adj[b].pb(a);
+        }
 }
 
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>dijkstrausingpriorityqueue</tabTrigger>
+	<tabTrigger>dijkstraforsparsegraphs</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>

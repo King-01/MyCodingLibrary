@@ -1,0 +1,53 @@
+<snippet>
+	<content><![CDATA[
+
+vii adj[N];
+vi vis(N, false);
+vi d(N), par(N);
+void djikstra(ll s)
+{
+    d.assign(n+1 ,inf);
+    par.assign(n+1 ,-1);
+    rep(i ,1, n+1)
+    {
+        ll v = -1;
+        d[s] = 0;
+        par[0] = 0;
+        rep(j , 1, n+1)
+        {
+            if(!vis[j] and (v == -1 or d[j] < d[v]))
+            {
+                v = j;
+            }
+        }
+        if(d[v] == inf)break;
+
+        vis[v] = true;
+        for(auto itr : adj[v])
+        {
+            ll to = itr.first;
+            ll len = itr.second;
+            if(d[v] + len < d[to])
+            {
+                d[to] = d[v] + len;
+                par[to] = v;
+            }
+        }
+    }   
+}
+vi path(ll s ,ll t)
+{
+    vi pat;
+    for(ll i = t ;i != s ; i = par[i])
+    {
+        pat.pb(i);
+    }
+    reverse(all(pat));
+    return pat;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstrafordensegraphs</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

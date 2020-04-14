@@ -10,10 +10,10 @@ void dfs(ll node, ll par = -1)
 {
     tin[node] = timer++;
     vis[node] = 1;
-    parent[node] = parent;
+    parent[node] = par;
      for(auto itr:adj[node])
     {
-        if(itr == p)continue; 
+        if(itr == par)continue; 
         if(!vis[itr]){
             dfs(itr, node);
             low[node] = min(low[node], low[itr]);
@@ -27,16 +27,16 @@ void dfs(ll node, ll par = -1)
 }
 void copypaste()
 {
-    rep(i, 0, N){
-        vis[i] = 0;
-    }
-    rep(i, 0, m)
-    {
-        ll a, b;
-        cin >> a >> b;
-        adj[a].pb(b);
-        adj[b].pb(a);
-    }
+        rep(i, 0, N){
+            vis[i] = 0;
+        }
+        rep(i, 0, m)
+        {
+            ll a, b;
+            cin >> a >> b;
+            adj[a].pb(b);
+            adj[b].pb(a);
+        }
 }
 
 ]]></content>

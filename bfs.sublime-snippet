@@ -1,6 +1,5 @@
 <snippet>
 	<content><![CDATA[
-ll n;
 vi adj[N];
 vector<bool> vis(N);
 vi parent(N);

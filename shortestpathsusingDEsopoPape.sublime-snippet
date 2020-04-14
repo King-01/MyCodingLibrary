@@ -1,0 +1,45 @@
+<snippet>
+	<content><![CDATA[
+vii adj[N];
+vi d, par;
+void shortest_path(ll s)
+{
+    d.assign(n+1, inf);
+    par.assign(n+1, -1);
+    d[s] = 0;
+    deque<ll> q;
+    vi m(n, 2);
+    q.push_back(s);
+    while(!q.empty())
+    {
+        ll cur = q.front();
+        q.pop_front();
+        m[cur] = 0;
+        for(auto itr : adj[cur])
+        {
+            ll nex = itr.first;
+            ll len = itr.second;
+            if(d[nex] > len + d[cur])
+            {
+                d[nex] = len + d[cur];
+                par[nex] = cur;
+                if(m[nex] == 2)
+                {
+                    m[nex] = 1;
+                    q.push_back(nex);
+                }
+                else
+                {
+                    m[nex] = 1;
+                    q.push_front(nex);
+                }
+            }
+        }
+    }   
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>shortestpathusingDEsopoPape</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
