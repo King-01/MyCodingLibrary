@@ -1,0 +1,34 @@
+<snippet>
+	<content><![CDATA[
+int bit[2][N];
+
+void update(int i, int idx, int k)
+{
+	while(idx<=n)
+	{
+		bit[i][idx]+=k;
+		idx+=idx&-idx;
+	}
+}
+
+int pref(int i, int idx)
+{
+	int ans=0;
+	while(idx>0)
+	{
+		ans+=bit[i][idx];
+		idx-=idx&-idx;
+	}
+	return ans;
+}
+
+int rsum(int i, int l, int r)
+{
+	return pref(i, r) - pref(i, l-1);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>fenwicktreemultiple</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

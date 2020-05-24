@@ -1,0 +1,41 @@
+<snippet>
+	<content><![CDATA[
+string to_str(int _n)
+{
+	string _ret;
+	if(_n == 0)return "0";
+	while(_n)
+	{
+		_ret += '0' + _n%2;
+		_n /= 2;
+	}
+	return _ret;
+}
+int to_int(string _s)
+{
+	int _i = 1, _ret = 0;
+	rep(_j, 0, sz(_s))
+	{
+		if(_s[_j] == '1')_ret += _i;
+		_i *= 2;
+	}
+	return _ret;
+}
+string equal_length(string _gg, int _n)
+{
+	if(sz(_gg) > _n){
+		dbg(1);
+		return _gg;
+	}
+	int _itr = _n - sz(_gg);
+	rep(i ,0 ,_itr)
+		_gg += '0';
+	return _gg;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>inttostringtoint</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

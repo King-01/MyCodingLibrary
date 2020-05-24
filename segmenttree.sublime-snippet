@@ -1,68 +1,149 @@
 <snippet>
 	<content><![CDATA[
-void build(ll node, ll start, ll end)
+struct data
 {
-    if(start == end)
-    {
-        // Leaf node will have a single element
-        tree[node] = A[start];
-    }
-    else
-    {
-        ll mid = (start + end) / 2;
-        // Recurse on the left child
-        build(2*node, start, mid);
-        // Recurse on the right child
-        build(2*node+1, mid+1, end);
-        // llernal node will have the sum of both of its children
-        tree[node] = tree[2*node] + tree[2*node+1];
-    }
-}
+	//Use required attributes
+	int mn;
 
-void update(ll node, ll start, ll end, ll idx, ll val)
-{
-    if(start == end)
-    {
-        // Leaf node
-        A[idx] += val;
-        tree[node] += val;
-    }
-    else
-    {
-        ll mid = (start + end) / 2;
-        if(start <= idx and idx <= mid)
-        {
-            // If idx is in the left child, recurse on the left child
-            update(2*node, start, mid, idx, val);
-        }
-        else
-        {
-            // if idx is in the right child, recurse on the right child
-            update(2*node+1, mid+1, end, idx, val);
-        }
-        // llernal node will have the sum of both of its children
-        tree[node] = tree[2*node] + tree[2*node+1];
-    }
-}
+	//Default Values
+	data() : mn(1e9) {};
+};
 
-ll query(ll node, ll start, ll end, ll l, ll r)
+struct SegTree
 {
-    if(r < start or end < l)
-    {
-        // range represented by a node is completely outside the given range
-        return 0;
-    }
-    if(l <= start and end <= r)
-    {
-        // range represented by a node is completely inside the given range
-        return tree[node];
-    }
-    // range represented by a node is partially inside and partially outside the given range
-    ll mid = (start + end) / 2;
-    ll p1 = query(2*node, start, mid, l, r);
-    ll p2 = query(2*node+1, mid+1, end, l, r);
-    return (p1 + p2);
-}
+	int N;
+	vector<data> st;
+	vector<bool> cLazy;
+	vector<int> lazy;
+
+	void init(int n)
+	{
+		N = n;
+		st.resize(4 * N + 5);
+		cLazy.assign(4 * N + 5, false);
+		lazy.assign(4 * N + 5, 0);
+	}
+
+	//Write reqd merge functions
+	void merge(data &cur, data &l, data &r) 
+	{
+		cur.mn = min(l.mn, r.mn);
+	}
+	
+	//Handle lazy propagation appriopriately
+	void propagate(int node, int L, int R)
+	{
+		if(L != R)
+		{
+			cLazy[node*2] = 1;
+			cLazy[node*2 + 1] = 1;
+			lazy[node*2] = lazy[node];
+			lazy[node*2 + 1] = lazy[node]; 
+		}
+		st[node].mn = lazy[node];
+		cLazy[node] = 0;
+	}
+
+	void build(int node, int L, int R)
+	{
+		if(L==R)
+		{
+			st[node].mn = 1e9;
+			return;
+		}
+		int M=(L + R)/2;
+		build(node*2, L, M);
+		build(node*2 + 1, M + 1, R);
+		merge(st[node], st[node*2], st[node*2+1]);
+	}
+
+	data Query(int node, int L, int R, int i, int j)
+	{
+		if(cLazy[node])
+			propagate(node, L, R);
+		if(j<L || i>R)
+			return data();
+		if(i<=L && R<=j)
+			return st[node];
+		int M = (L + R)/2;
+		data left=Query(node*2, L, M, i, j);
+		data right=Query(node*2 + 1, M + 1, R, i, j);
+		data cur;
+		merge(cur, left, right);
+		return cur;
+	}
+
+	data pQuery(int node, int L, int R, int pos)
+	{
+		if(cLazy[node])
+			propagate(node, L, R);
+		if(L == R)
+			return st[node];
+		int M = (L + R)/2;
+		if(pos <= M)
+			return pQuery(node*2, L, M, pos);
+		else
+			return pQuery(node*2 + 1, M + 1, R, pos);
+	}	
+
+	void Update(int node, int L, int R, int i, int j, int val)
+	{
+		if(cLazy[node])
+			propagate(node, L, R);
+		if(j<L || i>R)
+			return;
+		if(i<=L && R<=j)
+		{
+			cLazy[node] = 1;
+			lazy[node] = val;
+			propagate(node, L, R);
+			return;
+		}
+		int M = (L + R)/2;
+		Update(node*2, L, M, i, j, val);
+		Update(node*2 + 1, M + 1, R, i, j, val);
+		merge(st[node], st[node*2], st[node*2 + 1]);
+	}
+
+	void pUpdate(int node, int L, int R, int pos, int val)
+	{
+		if(cLazy[node])
+			propagate(node, L, R);
+		if(L == R)
+		{
+			cLazy[node] = 1;
+			lazy[node] = val;
+			propagate(node, L, R);
+			return;
+		}
+		int M = (L + R)/2;
+		if(pos <= M)
+			pUpdate(node*2, L, M, pos, val);
+		else
+			pUpdate(node*2 + 1, M + 1, R, pos, val);
+		merge(st[node], st[node*2], st[node*2 + 1]);
+	}
+
+	data query(int pos)
+	{
+		return pQuery(1, 1, N, pos);
+	}
+
+	data query(int l, int r)
+	{
+		return Query(1, 1, N, l, r);
+	}
+
+	void update(int pos, int val)
+	{
+		pUpdate(1, 1, N, pos, val);
+	}
+
+	void update(int l, int r, int val)
+	{
+		Update(1, 1, N, l, r, val);
+	}
+};
 
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
