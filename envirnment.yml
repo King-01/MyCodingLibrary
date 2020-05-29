@@ -1,0 +1,5 @@
+name: explo
+channels:
+  - defaults
+prefix: /home/aasav/anaconda3/envs/explo
+
