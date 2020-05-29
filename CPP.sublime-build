@@ -7,7 +7,7 @@
   [ 
     {
       "name": "Run",
-      "cmd": ["bash", "-c", "g++ -Wall -Wshadow -std=c++17 -DLOCAL '${file}' -o '${file_path}/${file_base_name}' &&  xterm -e bash -c '\"${file_path}/${file_base_name}\" ;  echo ; echo Press Enter to Continue; read'"]  
+      "cmd": ["bash", "-c", "g++ -std=c++17 -DLOCAL '${file}' -o '${file_path}/${file_base_name}' &&  xterm -e bash -c '\"${file_path}/${file_base_name}\" ;  echo ; echo Press Enter to Continue; read'"]  
     }
   ]    
 }

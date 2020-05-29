@@ -3,4 +3,5 @@
 
 	{"keys": ["f7"], "command": "add_date" },
 	{"keys": ["f7"], "command": "add_time" },
+	{"keys": ["ctrl+q"], "command": ""}
 ]
