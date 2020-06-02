@@ -1,0 +1,36 @@
+<snippet>
+	<content><![CDATA[
+int d[N];
+vi ans, weight;
+void prim(int node = -1)
+{
+	rep(i ,1, n + 1)d[i] = inf;
+	d[node] = 0;
+	set<pii> s;
+	s.insert({0, node});
+	rep(i, 1 ,n + 1)if(i != node)s.insert({inf, i});
+	int cur;
+	while(!s.empty())
+	{
+		int wei = s.begin() -> first;
+		cur = s.begin() -> second;
+		s.erase(s.begin());
+		weight += wei;
+		for(auto itr : adj[v])
+		{
+			int nex = itr.first, w = itr.second;
+			if(d[nex] > w)
+			{
+				s.erase({d[nex], nex});
+				d[nex] = w;
+				s.insert({w ,nex});
+			}
+		}
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prims</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

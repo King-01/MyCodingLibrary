@@ -62,11 +62,13 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #define N                  200005
 ll n, m, k, a[N];
 
+
 int32_t main()
 {
     ios::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
+    cin.tie(nullptr);
+    cout.precision(10);
+    cout << fixed;
     #ifdef LOCAL
     // for getting input from input.txt
     freopen("input.txt", "r", stdin);
@@ -78,11 +80,13 @@ int32_t main()
     rep(test, 1, tests+1)
     {
         cin >> n;
-
+        $1
     }
+    #ifdef LOCAL
+        cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
+    #endif
     return 0;
 }
-
 ]]></content>
 	<tabTrigger>cpp</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
