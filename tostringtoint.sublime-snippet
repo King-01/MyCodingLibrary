@@ -1,0 +1,35 @@
+<snippet>
+	<content><![CDATA[
+
+string tobin(int _n)
+{
+	string ret;
+	if(_n == 0)
+	{
+		return "0";
+	}
+	while(_n)
+	{
+		ret += '0' + _n % 2;
+		_n /= 2;
+	}
+	reverse(all(ret));
+	return ret;
+}
+int toint(string _s)
+{
+	int ret = 0;
+	int _i = 1;
+	rep(_j, 0, sz(_s))
+	{
+		if(_s[_j] == '1')ret += _i;
+		_i *= 2;
+	}
+	return ret;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>tostringint</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

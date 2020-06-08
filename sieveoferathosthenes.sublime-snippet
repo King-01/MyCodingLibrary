@@ -1,8 +1,10 @@
 <snippet>
 	<content><![CDATA[
+
 // Calculating SPF (Smallest Prime Factor) for every 
 // number till N. 
 // Time Complexity : O(nloglogn)
+int spf[N];
 void sieve() 
 { 
     spf[1] = 1; 
