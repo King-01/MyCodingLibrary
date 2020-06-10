@@ -7,7 +7,7 @@
   [ 
     {
       "name": "Run",
-      "cmd": ["bash", "-c", " g++  -DLOCAL -std=c++17 -g -fsanitize=address -D_GLIBCXX_DEBUG '${file}' -o '${file_path}/${file_base_name}' &&  xterm -e bash -c '\"${file_path}/${file_base_name}\" ;  echo ; echo Press Enter to Continue; read'"]  
+      "cmd": ["bash", "-c", " g++  -DLOCAL -std=c++17 -Wshadow -Wall -g -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG '${file}' -o '${file_path}/${file_base_name}' &&  xterm -e bash -c '\"${file_path}/${file_base_name}\" ;  echo ; echo Press Enter to Continue; read'"]  
     }
   ]    
 }

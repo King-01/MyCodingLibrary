@@ -7,7 +7,7 @@
   [ 
     {
       "name": "Run",
-      "cmd": ["bash", "-c", "ulimit -s 262144 ulimit -v 1048576 g++ -std=c++17 -DLOCAL '${file}' -o '${file_path}/${file_base_name}' &&  xterm -e bash -c '\"${file_path}/${file_base_name}\" ;  echo ; echo Press Enter to Continue; read'"]  
+      "cmd": ["bash", "-c", "g++ -O2 -std=c++14 -Wshadow -Wall -Wno-unused-result -DLOCAL '${file}' -o '${file_path}/${file_base_name}' &&  xterm -e bash -c '\"${file_path}/${file_base_name}\" ;  echo ; echo Press Enter to Continue; read'"]  
     }
   ]    
 }

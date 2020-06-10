@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+struct trie1{
+	bool isend;
+	struct trie1 *go[2];
+	trie()
+	{
+		isend = false;
+		memset(go ,NULL ,sizeof go);
+	}
+};
+struct trie1 *root;
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>trie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

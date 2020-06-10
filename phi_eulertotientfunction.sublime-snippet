@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+int phi(int _n)
+{
+	int _ret = _n;
+	for(int _i = 2; _i * _i <= _n ;_i++)
+	{
+		if(_n % _i == 0)
+		{
+			while(_n % _i == 0)
+				_n /= _i;
+			_ret -= _ret / _i;
+		}
+	}
+	if(_n > 1)_ret -= _ret / _n;
+	return _ret;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>phi</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

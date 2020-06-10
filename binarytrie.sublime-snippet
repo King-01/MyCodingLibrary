@@ -1,0 +1,60 @@
+<snippet>
+	<content><![CDATA[
+
+struct trie1{
+	int cnt;
+	struct trie1 *go[2];
+	trie1()
+	{
+		cnt = 0;
+		memset(go, NULL, sizeof go);
+	}
+};
+struct trie1 *root;
+void insert(int x)
+{
+	trie1 *cur = root;
+	for(int i = 32; i > -1; i--)
+	{
+		int b = (x >> i) & 1;
+		if(cur -> go[b] == NULL)cur->go[b] = new trie1;
+		cur = cur->go[b];
+		cur->cnt++;
+	}
+}
+void del(int x)
+{
+	trie1 *cur = root;
+	for(int i = 32; i > -1; i--)
+	{
+		int b = (x >> i) & 1;
+		if(cur->go[b] == NULL)return;
+		cur = cur->go[b];
+		cur->cnt--;
+	}
+}
+int maxxor(int x)
+{
+	int ret = 0;
+	trie1 *cur = root;
+	for(int i = 32; i > -1;i --)
+	{
+		int b = (x >> i) & 1;
+		if(cur->go[1 - b] == NULL or cur->go[1 - b]->cnt == 0)
+		{
+			b = 1 - b;
+		}
+		else
+		{
+			ret += (1LL << i);
+		}
+		cur = cur->go[1 - b];
+	}
+	return ret;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>binarytrie</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
