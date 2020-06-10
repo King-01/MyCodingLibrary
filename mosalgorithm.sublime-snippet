@@ -1,0 +1,55 @@
+<snippet>
+	<content><![CDATA[
+
+int ret[N], cnt[N];
+struct Query{
+	int l ,r ,idx;
+	
+};
+Query q[N];
+mii m1;
+int ans;
+int sz;
+inline void add(int idx)
+{
+	if(idx > 1e5L)return;
+	if(idx == cnt[idx])ans--;
+	cnt[idx]++;
+	if(idx == cnt[idx])ans++;
+}
+inline void del(int idx)
+{
+	if(idx > 1e5L)return;
+	if(idx == cnt[idx])ans--;
+	cnt[idx]--;
+	if(idx == cnt[idx])ans++;
+}
+bool cmp(Query &q1, Query &q2)
+{
+	int f1 = q1.l / sz;
+	int f2 = q2.l / sz;
+	if(f1 == f2)
+		return (f1 & 1) ? q1.r < q2.r : q1.r > q2.r;
+	else return f1 < f2;
+}
+void mo(int _m)
+{
+	int mo_left = 0 ,mo_right = -1;
+	rep(i , 0, _m)
+	{
+		// dbg(mo_left, mo_right, ans);
+		while(mo_right < q[i].r)
+			add(a[++mo_right]);
+		// dbg(mo_left, mo_right, ans);
+		while(mo_right > q[i].r)del(a[mo_right--]);
+		while(mo_left > q[i].l)add(a[--mo_left]);
+		while(mo_left < q[i].l)del(a[mo_left++]);
+		ret[q[i].idx] = ans;
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mosalgorithm</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
