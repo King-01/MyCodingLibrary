@@ -1,0 +1,57 @@
+<snippet>
+	<content><![CDATA[
+
+const int d = 30;
+int basis[d];
+int sz;
+int pow_2[d];
+void init()
+{
+    pow_2[0] = 1;
+    rep(i, 1, d)(pow_2[i] = pow_2[i - 1] * 2) %= hell;
+}
+bool check_xor(int mask)
+{
+    for(int i = 0; i < d; i++)
+    {
+        if(!(mask & 1 << i))continue;
+        if(!basis[i])return false;
+        mask ^= basis[i];
+    }
+    return true;
+}
+void insert_vector(int mask)
+{
+    //down to up basis builder
+    for(int i = 0; i < d; i++)
+    {
+        if(!(mask & 1 << i))continue;
+        if(!basis[i])
+        {
+            basis[i] = mask;
+            sz++;
+            return;
+        }
+        mask ^= basis[i];    
+    }
+    //reverse basis builder.
+    // for(int i = d - 1 ; i > -1; i--)
+    // {
+    //     if(!(mask & 1 << i))continue;
+    //     if(!basis[i])
+    //     {
+    //         basis[i] = mask;
+    //         sz++;
+    //         return;
+    //     }
+    //     mask ^= basis[i];
+
+    // }
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>basisforxor</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+	<!-- link - https://codeforces.com/blog/entry/68953 -->
+</snippet>
