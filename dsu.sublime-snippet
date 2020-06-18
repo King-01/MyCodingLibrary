@@ -3,30 +3,33 @@
 
 ll sz[N];
 ll root[N];
+int seg;
 void init()
 {
-    rep(i, 0, n+1){
-        root[i] = i;
-        sz[i] = 1;   
+    seg = n;
+    rep(_i, 0, n+1){
+        root[_i] = _i;
+        sz[_i] = 1;   
     }
 }
-ll find_set(ll v)
+ll find_set(ll _v)
 {
-    while(v != root[v]){
-        root[v] = root[root[v]];
-        v = root[v];
+    while(_v != root[_v]){
+        root[_v] = root[root[_v]];
+        _v = root[_v];
     }
-    return v;
+    return _v;
 }
-void merge(ll a, ll b)
+void merge(ll _a, ll _b)
 {
-    ll par1 = find_set(a);
-    ll par2 = find_set(b);
-    if(a != b)
+    _a = find_set(_a);
+    _b = find_set(_b);
+    if(_a != _b)
     {
-        if(sz[a] < sz[b])swap(a, b);
-        root[b] = a;
-        sz[a] += sz[b];
+        if(sz[_a] < sz[_b])swap(_a, _b);
+        root[_b] = _a;
+        seg--;
+        sz[_a] += sz[_b];
     }
 }
 

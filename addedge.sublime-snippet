@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+vi adj[N];
+bool vis[N];
+inline void add_edge()
+{
+	int u, v;
+	cin >> u >> v;
+	adj[u].pb(v);
+	adj[v].pb(u);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>addedge</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
