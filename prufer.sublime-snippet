@@ -1,0 +1,93 @@
+<snippet>
+	<content><![CDATA[
+vi adj[N];
+// int degree[N];
+int parent[N];
+// vi adj[N];
+bool vis[N];
+inline void add_edge()
+{
+	int u, v;
+	cin >> u >> v;
+	adj[u].pb(v);
+	adj[v].pb(u);
+}
+void dfs(int cur, int par = -1)
+{
+	parent[cur] = par;
+	vis[cur] = 1;
+	for(auto nex : adj[cur])
+	{
+		if(!vis[nex])
+		{
+			dfs(nex, cur);
+		}
+	}
+}
+// works in O(n)
+vi prufer_code()
+{
+	vi prufer;
+	vi degree(n);
+    rep(i, 1, n + 1)degree[i] = sz(adj[i]);
+	int ptr = 1;
+	while(degree[ptr] != 1)ptr++;
+	int leaf = ptr;
+	rep(i,0 , n - 2)
+	{
+		int v = parent[leaf];
+		prufer.pb(v);
+		if(--degree[v] and v < ptr)
+		{
+			leaf = ptr;
+		}
+		else
+		{
+			ptr++;
+			while(degree[ptr] != 1)
+			{
+				ptr++;
+			}
+			leaf = ptr;
+		}
+	}
+	return prufer;
+}
+//runtime O(n)
+vii prufer_decode(vi prufer)
+{
+	vii egs;
+	vi deg(n, 1);
+	for(auto cur : prufer)
+		deg[cur]++;
+	int ptr = 1;
+	while(deg[ptr] != 1)
+	{
+		ptr++;
+	}
+	int leaf = ptr;
+	for(auto cur : prufer)
+	{
+		egs.pb({cur, leaf});
+		deg[cur]--;
+		if(deg[cur] == 1 and cur < ptr)
+		{
+			leaf = cur;
+		}
+		else
+		{
+			ptr++;
+			while(deg[ptr] != 1)
+				ptr++;
+			leaf = ptr;
+		}
+	}
+	egs.pb({leaf, n});
+	return egs;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>prufer</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

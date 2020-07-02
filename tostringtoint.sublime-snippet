@@ -27,6 +27,17 @@ int toint(string _s)
 	}
 	return ret;
 }
+string toequal(string _s, int _n)
+{
+	string ret;
+	rep(i, 0, _n - sz(_s))
+	{
+		ret += '0';
+	}
+	ret += _s;
+	// ret = _s + ret;
+	return ret;
+}
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>tostringint</tabTrigger>

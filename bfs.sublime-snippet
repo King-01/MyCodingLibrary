@@ -36,6 +36,7 @@ vi bfs(ll node)
     }
     return dist;
 }
+
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>bfs</tabTrigger>

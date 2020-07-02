@@ -1,5 +1,3 @@
-<snippet>
-	<content><![CDATA[
 #include<bits/stdc++.h> 
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp> 
@@ -56,7 +54,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #define inf                3223372036854775807
 #define endl               '\n' 
 #define PI                  3.14159265
-#define N                  (int) 1e6 + 5
+#define N                  200005
 ll n, m, k, a[N];
 
 
@@ -77,16 +75,10 @@ int32_t main()
     rep(test, 1, tests+1)
     {
         cin >> n;
-        $1
+        
     }
     #ifdef LOCAL
         cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";
     #endif
     return 0;
 }
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>cpp1</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<!-- <scope>source.python</scope> -->
-</snippet>

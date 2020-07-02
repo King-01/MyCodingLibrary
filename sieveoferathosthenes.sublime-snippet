@@ -7,7 +7,7 @@
 int spf[N];
 void sieve() 
 { 
-    spf[1] = 1; 
+    spf[1] = 0; 
     for (ll i=2; i<N; i++) 
   
         // marking smallest prime factor for every 

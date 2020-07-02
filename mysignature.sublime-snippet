@@ -59,7 +59,7 @@ void err(istream_iterator<string> it, T a, Args... args) {
 #define inf                3223372036854775807
 #define endl               '\n' 
 #define PI                  3.14159265
-#define N                  200005
+#define N                  (int) 1e6 + 5
 ll n, m, k, a[N];
 
 
