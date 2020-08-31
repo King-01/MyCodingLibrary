@@ -1,52 +1,77 @@
 <snippet>
 	<content><![CDATA[
-//works in O(n * logn * logn)
-vector<int> suffix_array(string s1)
-{
-    s1 += "\$";
-    int lem1 = sz(s1);
-    vector<int>  c1(lem1);
-    vector<pair<char, int> > p1(lem1);
-    rep(i1 ,0, lem1)
-    {
-        p1[i1] = {s1[i1], i1};
-    }
-    sort(all(p1));
-    rep(i1, 0, lem1)
-    {
-        if(!i1)c1[p1[i1].second] = 1;
-        else
-        {
-            if(p1[i1].first == p1[i1 - 1].first)c1[p1[i1].second] = c1[p1[i1 - 1].second];
-            else c1[p1[i1].second] = c1[p1[i1 - 1].second] + 1;
-        }
-    }
-    int k1 = 0;
-    while((1 << k1) < lem1)
-    {
-        vector<pair<pii, int>> a1(lem1);
-        rep(i1 ,0, lem1)
-        {
-            a1[i1] = {{c1[i1], c1[((i1 + (1 << k1))%lem1)]}, i1};
-        }
-        sort(all(a1));
-        int cnt1 = 1;
-        rep(i1, 0, lem1)
-        {
-            if(!i1)c1[a1[i1].second] = cnt1;
-            else
-            {
-                if(a1[i1].first == a1[i1 - 1].first)c1[a1[i1].second] = cnt1;
-                else c1[a1[i1].second] = ++cnt1;
-            }
-        }
-        if(cnt1 == lem1)break;
-        k1++;
-    }
-    c1.erase(--c1.end());
-    return c1;    
-}
 
+// vi p; //put it into main and time complexity of this algorithm is O(nlogn)
+void radix_sort(vi &p, vi &c)
+{
+	vi cnt(n, 0);
+	for(auto it : p)cnt[c[it]]++;
+	vector<int> a_new(n);
+	vi pos(n);
+	pos[0] = 0;
+	rep(i, 1, n)
+	{
+		pos[i] = pos[i - 1] + cnt[i - 1];
+	}
+	for(auto it : p)
+	{
+		int idx = c[it];
+		a_new[pos[idx]] = it;
+		pos[idx]++;
+	}
+	p = a_new;
+	return ;
+}
+void build_suffix_array(string &s, vi &p)
+{
+	s += '\$';
+	n = sz(s);
+	vi c(n);
+	p.resize(n);
+	{
+		vector<pair<char, int>> a(n);
+		rep(i, 0, n)a[i] = {s[i], i};
+		sort(all(a));
+		rep(i, 0, n)
+		{
+			p[i] = a[i].second;
+		}
+		c[p[0]] = 0;
+		rep(i, 1, n)
+		{
+			if(a[i - 1].first != a[i].first)
+			{
+				c[p[i]] = c[p[i - 1]] + 1;
+			}
+			else c[p[i]] = c[p[i - 1]];
+		}
+	}
+	int k = 1;
+	while(k < n)
+	{
+		rep(i, 0, n)
+		{
+			p[i] = (p[i] - k + n) % n;
+		}
+		radix_sort(p, c);
+		vi c_new(n);
+		c[p[0]] = 0;
+		rep(i ,1, n)
+		{
+			pii prev = {c[p[i - 1]] ,c[(p[i - 1] + k) % n]};
+			pii now = {c[p[i]], c[(p[i] + k) % n]};
+			if(prev == now)
+			{
+				c_new[p[i]] = c_new[p[i - 1]];
+			}
+			else c_new[p[i]] = c_new[p[i - 1]] + 1;
+		}
+		c = c_new;
+		if(c[p[n - 1]] == n - 1)break;
+		k *= 2;
+	}
+	return ;
+}
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>suffixarray</tabTrigger>

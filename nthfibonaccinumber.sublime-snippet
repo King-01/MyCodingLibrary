@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+map<long long int, long long int> nthFibonacci;
+// Time complexity O(logn * loglogn) per query
+// Initialization, insert in main
+// nthFibonacci[0] = nthFibonacci[1] = 1;
+// (n == 0) ? 0 : fibonacci(n - 1);
+inline long long int fibonacci(long long int n)
+{
+	if(F.count(n))return nthFibonacci[n];
+	long long int newState = n >> 1;
+	if(!(n & 1))
+	{	// n = 2 * k
+		return nthFibonacci[n] = ((fibonacci(k) * fibonacci(k)) + (fibonacci(k - 1) * fibonacci(k - 1))) % hell;
+	}
+	else
+	{	// n = 2 * k + 1
+		return nthFibonacci[n] = ((fibonacci(k) * fibonacci(k + 1)) + (fibonacci(k - 1) * fibonacci(k))) % hell;
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>nthfibonacci</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

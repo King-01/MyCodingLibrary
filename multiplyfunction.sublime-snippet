@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+int mult(int MUL1, int MUL2 = 1)
+{
+	int OKAY = 1;
+	OKAY *= (MUL1 + hell) % hell;
+	OKAY %= hell;
+	OKAY *= (MUL2 + hell) % hell;
+	OKAY *= hell;
+	return OKAY;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>multiplyfunction</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,53 @@
+<snippet>
+	<content><![CDATA[
+int sz[N], dp[N];
+int calcsz(int node, int par = -1)
+{
+	sz[node] = 1;
+	for(auto nex : adj[node])
+	{
+		if(nex == par)continue;
+		sz[node] += calcsz(nex, node);
+	}
+	return sz[node];
+}
+int calcdp(int node, int par = -1)
+{	
+	dp[node] = sz[node];
+	for(auto nex : adj[node])
+	{
+		if(nex == par)continue;
+		dp[node] += calcdp(nex ,node);
+	}
+	return dp[node];
+}
+void dfs(int node)
+{
+	ans = max(ans, dp[node]);
+	vis[node] = 1;
+	for(auto nex : adj[node])
+	{
+		if(vis[nex])continue;
+		dp[node] -= dp[nex];
+		dp[node] -= sz[nex];
+		sz[node] -= sz[nex];
+		sz[nex] += sz[node];
+		dp[nex] += dp[node];
+		dp[nex] += sz[node];
+
+		dfs(nex);
+
+		dp[nex] -= dp[node];
+		sz[nex] -= sz[node];
+		dp[nex] -= sz[node];
+		dp[node] += dp[nex];
+		dp[node] += sz[nex];
+		sz[node] += sz[nex];
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>rerootingtechnique</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
