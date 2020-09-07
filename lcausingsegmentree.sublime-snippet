@@ -1,0 +1,71 @@
+<snippet>
+	<content><![CDATA[
+
+// O(N) preprocessing time and O(logN) time per query;
+int segtree[N << 2];
+vector<int> height, euler, first;
+void dfs(int node, int h = 0)
+{
+    vis[node] = 1;
+    height[node] = h;
+    first[node] = euler.size();
+    euler.push_back(node);
+    for(auto nex : adj[node])
+    {
+        if(vis[node])continue;
+        dfs(nex, h + 1);
+        euler.push_back(nex);
+    }
+}
+void build(int node, int tl, int tr)
+{
+    if(tl == tr)
+        segtree[node] = euler[tl];
+    else 
+    {
+        int mid = (tl + tr) >> 1;
+        build(node << 1, tl, mid);
+        build(node << 1 | 1, mid + 1, tr);
+        int f1 = segtree[node << 1], f2 = segtree[node << 1 | 1];
+        segtree[node] = (height[f1] > height[f2]) ? f2 : f1;
+    }   
+}
+
+int query(int node, int tl, int tr, int l, int r)
+{
+    if(tl > tr)return -1;
+    if(l == tl and r == tr)return segtree[node];
+    int tm = (tl + tr) >> 1;
+    int left = query(node << 1, tl, tm, l, min(r, tm));
+    int right = query(node << 1 | 1, tm + 1, tr, max(tm + 1, l), r);
+    if(left == -1)return right;
+    if(right == -1)return left;
+    return (height[left] > height[right]) ? right : left;
+}
+
+int lca(int _first, int _second)
+{
+    int left = first[_first], right = first[_second];
+    if(left > right)
+    {
+        swap(left, right);
+    }
+    return query(1, 0, sz(euler) - 1, left, right);
+}
+
+void init(int root)
+{
+    euler.reserve(2 * n + 2);
+    first.resize(n + 1);
+    height.resize(n + 1);
+    rep(i, 1, n + 1)vis[i] = false;
+    dfs(root);
+    build(1, 0, sz(euler) - 1);
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lcausingsegmenttree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

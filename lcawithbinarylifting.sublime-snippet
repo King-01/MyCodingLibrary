@@ -1,0 +1,54 @@
+<snippet>
+	<content><![CDATA[
+
+// O(NlogN) preprocessing time and log(N) query time per query
+int tin[N], tout[N];
+int counter;
+int l;
+// l = ceil(log2(n));
+vector<int> adj[N];
+int up[N][20];
+//you might need to initialize up customised as in case of large array sizes global initialization sometimes fails
+void dfs(int node, int p)
+{
+    tin[node] = ++counter;
+    up[node][0] = p;
+    for(int i = 1; i < l; i++)
+    {
+        up[node][i] = up[up[node][i - 1]][i - 1];
+    }
+    for(auto nex : adj[node])
+    {
+        if(nex == p)continue;
+        dfs(nex, node);
+    }
+    tout[node] = ++counter;
+}
+
+bool is_ancestor(int ancest, int child)
+{
+    return (tin[child] >= tin[ancest] and tout[ancest] >= tout[child]);
+}
+int lca(int _first, int _second)
+{
+    if(is_ancestor(_first, _second))
+    {
+        return _first;
+    }
+    if(is_ancestor(_second, _first))
+    {
+        return _second;
+    }
+    for(int i = l; i > -1; i--)
+    {
+        if(!is_ancestor(up[_first][i], _second))_first = up[_first][i];
+    }
+    return up[_first][0];
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>lcawithbiniarylifting</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
