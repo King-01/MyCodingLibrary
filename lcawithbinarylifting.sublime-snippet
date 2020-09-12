@@ -6,7 +6,6 @@ int tin[N], tout[N];
 int counter;
 int l;
 // l = ceil(log2(n));
-vector<int> adj[N];
 int up[N][20];
 //you might need to initialize up customised as in case of large array sizes global initialization sometimes fails
 void dfs(int node, int p)

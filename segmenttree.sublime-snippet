@@ -1,77 +1,118 @@
 <snippet>
 	<content><![CDATA[
-struct data
-{
-	int sum = 0;
-	data()
-	{
-		;
-	}
+
+struct item{
+    // int m, c;
+    // long long int su;
+    // long long int mex, pref, suf, sum;
+    int val;
 };
-data segt[N << 2];
-//koi bhi naya DS daale array ki jgh build function me toh use globally define krke hi dalein warna TLE aajayega.
-//building of segment tree takes O(n) time and each query takes O(log n) time.
-//pass on the parameters in this make function.
-data make(int v1)
-{
-	data ret;
-	ret.sum = v1;
-	return ret;
-}
-data combine(data f1, data f2)
-{
-	//logic regarding combining 2 child nodes for a parent one.
-	data ret;
-	ret.sum = f1.sum + f2.sum;
-	return ret;
-}
-void build(int a1[], int node, int tl ,int tr)
-{
-	if(tl == tr)
-	{
-		segt[node] = make(a1[tl]);
-	}
-	else
-	{
-		int tm = (tl + tr) >> 1;
-		build(a1, node << 1, tl, tm);
-		build(a1, node << 1 | 1 ,tm + 1 ,tr);
-		segt[node] = combine(segt[node << 1], segt[node << 1 | 1]);
-	}
-}
-data query(int node, int tl, int tr ,int l, int r)
-{
-	if(l > r)
-	{
-		return make(0);
-	}
-	if(l == tl and r == tr)
-	{
-		return segt[node];
-	}
-	int tm = (tl + tr) >> 1;
-	return combine(query(node << 1, tl, tm, l, min(r ,tm)), query(node << 1 | 1 ,tm + 1, tr ,max(l, tm + 1), r));
-}
-void update(int node, int tl ,int tr ,int pos ,int new_val)
-{
-	if(tl == tr)
-	{
-		segt[node] = make(new_val);
-	}
-	else
-	{
-		int tm = (tl + tr) >> 1;
-		if(pos <= tm)
-		{
-			update(node << 1, tl ,tm ,pos, new_val);
-		}
-		else 
-		{
-			update(node << 1 | 1, tm + 1 ,tr, pos ,new_val);
-		}
-		segt[node] = combine(segt[node << 1], segt[node << 1 | 1]);
-	}
-}
+//O(N) preprocessing time and O(logN) query time amortized.
+// take care this implementation is 0 indexed!
+// segtree st;
+// st.init(n);
+// st.build(v);
+struct segtree{
+    int sz;
+    vector<item> values;
+    item NEUTRAL_ELEMENT = {0};
+
+    item merge(item fi, item se)
+    {
+        // if(fi.m < se.m)
+        // {
+        //     return fi;
+        // }
+        // if(fi.m > se.m)
+        // {
+        //     return se;
+        // }
+        // return {fi.m, fi.c + se.c};
+        // return {min(fi.su, se.su)};
+        // return {
+        //     max({fi.mex ,se.mex ,fi.suf + se.pref}),
+        //     max({fi.pref, fi.sum + se.pref}),
+        //     max({se.suf, se.sum + fi.suf}),
+        //     fi.sum + se.sum
+        // };
+        return {fi.val + se.val};
+    }
+    
+    item single(int val)
+    {
+        // if(val > 0)return {val, val, val, val};
+        // return {0, 0 , 0, val};
+        return {val};
+    }
+
+    void init(int new_size)
+    {
+        sz = 1;
+        while(sz < new_size)sz <<= 1;
+        values.resize(sz << 1);
+    }
+
+    void build(vector<int> &v, int node, int lx, int rx)
+    {
+        if(rx - lx == 1)
+        {
+            if(lx < sz(v))
+            {
+                values[node] = single(v[lx]);
+            }
+            return ;
+        }
+        int mx = (lx + rx) >> 1;
+        build(v, 2 * node + 1, lx, mx);
+        build(v, node * 2 + 2, mx, rx);
+        
+        values[node] = merge(values[2 * node + 1], values[node * 2 + 2]);
+    }
+
+    void build(vector<int> &v)
+    {
+        build(v, 0, 0, sz);
+    }
+
+    void set(int i, int val, int x, int lx, int rx)
+    {
+        if(rx - lx == 1)
+        {
+            values[x] = single(val);
+            return ;
+        }
+        int mx = (lx + rx) >> 1;
+        if(i < mx)
+        {
+            set(i, val, x * 2 + 1, lx, mx);
+        }
+        else
+            set(i, val, x * 2 + 2, mx, rx);
+
+        values[x] = merge(values[2 * x + 1], values[2 * x + 2]);
+    }
+
+    void set(int i, int val)
+    {
+        set(i, val, 0, 0, sz);
+    }
+
+    item calc(int l, int r, int x, int lx, int rx)
+    {
+        if(lx >= r or l >= rx)return NEUTRAL_ELEMENT;
+        if(lx >= l and rx <= r)return values[x];
+        int mx = (lx + rx) >> 1;
+        item f1 = calc(l ,r ,2 * x + 1, lx, mx);
+        item f2 = calc(l ,r ,2 * x + 2, mx, rx);
+        return merge(f1, f2);
+    }
+
+    item calc(int l, int r)
+    {
+        return calc(l, r, 0, 0, sz);
+    }
+};
+
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>segmenttree</tabTrigger>
