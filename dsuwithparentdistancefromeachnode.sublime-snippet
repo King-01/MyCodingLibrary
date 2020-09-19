@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+
+class dsu{
+public:
+	int _n;
+	vector<int> sz;
+	vector<pair<int, int>> parent;
+	dsu(int _f) : _n(_f)
+	{
+		sz.resize(_n + 3);
+		parent.resize(_n + 3);
+		rep(i, 0, _n + 3)
+		{
+			parent[i] = {i, 0};
+			sz[i] = 1;
+		}
+	}
+	pair<int, int> find_set(int cur)
+	{
+		if(cur != parent[cur].first)
+		{
+			int len = parent[cur].second;
+			parent[cur] = find_set(parent[cur].first);
+			parent[cur].second += len;
+		}
+		return parent[cur];
+	}
+
+	void merge(int fi, int se)
+	{
+		fi = find_set(fi).first;
+		se = find_set(se).first;
+		if(fi != se)
+		{
+			// if(sz[fi] < sz[se])
+			// 	swap(fi, se);
+			sz[fi] += sz[se];
+			parent[se] = {fi, 1};
+		}
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsuwithparentdistancefromeachnode</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

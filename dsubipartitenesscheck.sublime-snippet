@@ -1,0 +1,65 @@
+<snippet>
+	<content><![CDATA[
+
+class dsu{
+public:
+    int _n;
+    int seg;
+    vector<int> bipartite, sz;
+    vector<pair<int, int>> root;
+    dsu(int _f) : _n(_f)
+    {
+        seg = _n;
+        sz.resize(_n + 3);
+        bipartite.resize(_n + 3);
+        root.resize(_n + 3);
+        rep(i, 0, _n + 3)
+        {
+            sz[i] = 1;
+            root[i] = {i, 0};
+            bipartite[i] = true;
+        }
+    }
+    
+    pair<int, int> find_set(int _v)
+    {
+    	if(_v != root[_v].first)
+    	{
+    		int parity = root[_v].second;
+    		root[_v] = find_set(root[_v].first);
+    		root[_v].second ^= parity;
+    	}
+    	return root[_v];
+    }
+    void merge(int _a, int _b)
+    {
+    	pair<int, int> pa = find_set(_a);
+        _a = pa.first;
+        int para = pa.second;
+    	pair<int, int> pb = find_set(_b);
+        _b = pb.first;
+        int parb = pb.second;
+        if(_a != _b)
+        {
+            if(sz[_a] < sz[_b])swap(_a, _b);
+            root[_b] = {_a, para ^ parb ^ 1};
+            bipartite[_a] &= bipartite[_b];
+            seg--;
+            sz[_a] += sz[_b];
+        }
+        else
+        {
+        	if(para == parb)bipartite[_a] = false;
+        }
+    }
+    bool isBipartite(int cur)
+    {
+    	return bipartite[find_set(cur).first];
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dsubipartitenesscheck</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

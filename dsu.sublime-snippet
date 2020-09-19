@@ -1,38 +1,44 @@
 <snippet>
 	<content><![CDATA[
 
-ll sz[N];
-ll root[N];
-int seg;
-void init()
-{
-    seg = n;
-    rep(_i, 0, n+1){
-        root[_i] = _i;
-        sz[_i] = 1;   
-    }
-}
-ll find_set(ll _v)
-{
-    while(_v != root[_v]){
-        root[_v] = root[root[_v]];
-        _v = root[_v];
-    }
-    return _v;
-}
-void merge(ll _a, ll _b)
-{
-    _a = find_set(_a);
-    _b = find_set(_b);
-    if(_a != _b)
+class dsu{
+public:
+    int _n;
+    int seg;
+    vector<int> root, sz;
+    dsu(int _f) : _n(_f)
     {
-        if(sz[_a] < sz[_b])swap(_a, _b);
-        root[_b] = _a;
-        seg--;
-        sz[_a] += sz[_b];
+        seg = _n;
+        sz.resize(_n + 3);
+        root.resize(_n + 3);
+        rep(i, 0, _n + 3)
+        {
+            sz[i] = 1;
+            root[i] = i;
+        }
     }
-}
-
+    
+    int find_set(int _v)
+    {
+        while(_v != root[_v]){
+            root[_v] = root[root[_v]];
+            _v = root[_v];
+        }
+        return _v;
+    }
+    void merge(int _a, int _b)
+    {
+        _a = find_set(_a);
+        _b = find_set(_b);
+        if(_a != _b)
+        {
+            if(sz[_a] < sz[_b])swap(_a, _b);
+            root[_b] = _a;
+            seg--;
+            sz[_a] += sz[_b];
+        }
+    }
+};
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>dsu</tabTrigger>

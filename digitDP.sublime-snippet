@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+vector<int> v;
+int dp[(int)2e3 + 5][(int)2e3 + 5][2];
+int solve(vector<int> &v, int pos, int dip, int sum)
+{
+    if(pos == sz(v))
+    {
+    	// you might need to change some stuff here
+        return sum;
+    }
+    int &res = dp[pos][sum][dip];
+    if(res != -1)return res;
+    res = 0;
+    int lim = 0;
+    if(dip)lim = 9;
+    else lim = v[pos];
+    rep(i, 0, lim + 1)
+    {
+    	if(i != lim)
+        	res += solve(v, pos + 1, 1, sum + i);
+        else
+        	res += solve(v, pos + 1, dip, sum + i);
+    }
+    // res %= hell;
+    return res;
+}
+long long int solve(string &s)
+{
+    v.clear();
+    memset(dp, -1, sizeof dp);
+    rep(i, 0, sz(s))v.push_back(s[i] - '0');
+    return solve(v, 0, 0, 0);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>digitDP</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

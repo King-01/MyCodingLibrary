@@ -6,8 +6,8 @@ inline void add_edge()
 {
 	int u, v;
 	cin >> u >> v;
-	adj[u].pb(v);
-	adj[v].pb(u);
+	adj[u].push_back(v);
+	adj[v].push_back(u);
 }
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->

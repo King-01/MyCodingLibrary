@@ -1,23 +1,36 @@
 <snippet>
 	<content><![CDATA[
-
 struct item{
     // int m, c;
     // long long int su;
     // long long int mex, pref, suf, sum;
     int val;
+    // override assignment operator and default constructor and also remember to override + operator to get merge operation sorted.
+    item(){
+        val = 0;
+    }
+    item(int ok)
+    {
+        val = ok;
+    }
+    item operator+(const item &op1)
+    {
+        item ret;
+        ret.val = op1.val + val;
+        return ret;
+    }
 };
 //O(N) preprocessing time and O(logN) query time amortized.
 // take care this implementation is 0 indexed!
 // segtree st;
 // st.init(n);
 // st.build(v);
+template<class itemType, class B>
 struct segtree{
     int sz;
-    vector<item> values;
-    item NEUTRAL_ELEMENT = {0};
-
-    item merge(item fi, item se)
+    vector<itemType> values;
+    itemType NEUTRAL_ELEMENT;
+    itemType merge(itemType fi, itemType se)
     {
         // if(fi.m < se.m)
         // {
@@ -38,76 +51,77 @@ struct segtree{
         return {fi.val + se.val};
     }
     
-    item single(int val)
+    itemType single(B val)
     {
         // if(val > 0)return {val, val, val, val};
         // return {0, 0 , 0, val};
         return {val};
     }
-
+    inline int ri(int _gg){return _gg * 2 + 2;}
+    inline int le(int _gg){return _gg * 2 + 1;}
     void init(int new_size)
     {
         sz = 1;
         while(sz < new_size)sz <<= 1;
         values.resize(sz << 1);
     }
-
-    void build(vector<int> &v, int node, int lx, int rx)
+    void build(vector<B> &v, int x, int lx, int rx)
     {
         if(rx - lx == 1)
         {
             if(lx < sz(v))
             {
-                values[node] = single(v[lx]);
+                values[x] = v[lx];
             }
             return ;
         }
         int mx = (lx + rx) >> 1;
-        build(v, 2 * node + 1, lx, mx);
-        build(v, node * 2 + 2, mx, rx);
+        build(v, le(x), lx, mx);
+        build(v, ri(x), mx, rx);
         
-        values[node] = merge(values[2 * node + 1], values[node * 2 + 2]);
+        values[x] = values[le(x)] + values[ri(x)];
     }
-
-    void build(vector<int> &v)
+    void build(vector<B> &v)
     {
+        /****************************************************************************/
+        // REMEMBER TO CHANGE IT IF OUR FIRST ARGUMENT IS NOT ITEM WHICH IS RARE THO
+        // initializing neutral value
+        NEUTRAL_ELEMENT = item();
+        /*****************************************************************************/
+        int _n = v.size();
+        init(_n);
         build(v, 0, 0, sz);
     }
-
-    void set(int i, int val, int x, int lx, int rx)
+    void set(int i, B val, int x, int lx, int rx)
     {
         if(rx - lx == 1)
         {
-            values[x] = single(val);
+            values[x] = val;
             return ;
         }
         int mx = (lx + rx) >> 1;
         if(i < mx)
         {
-            set(i, val, x * 2 + 1, lx, mx);
+            set(i, val, le(x), lx, mx);
         }
         else
-            set(i, val, x * 2 + 2, mx, rx);
-
-        values[x] = merge(values[2 * x + 1], values[2 * x + 2]);
+            set(i, val, ri(x), mx, rx);
+        values[x] = values[le(x)] + values[ri(x)];
     }
-
-    void set(int i, int val)
+    void set(int i, B val)
     {
         set(i, val, 0, 0, sz);
     }
-
-    item calc(int l, int r, int x, int lx, int rx)
+    itemType calc(int l, int r, int x, int lx, int rx)
     {
         if(lx >= r or l >= rx)return NEUTRAL_ELEMENT;
         if(lx >= l and rx <= r)return values[x];
         int mx = (lx + rx) >> 1;
-        item f1 = calc(l ,r ,2 * x + 1, lx, mx);
-        item f2 = calc(l ,r ,2 * x + 2, mx, rx);
-        return merge(f1, f2);
+        itemType f1 = calc(l ,r ,le(x), lx, mx);
+        itemType f2 = calc(l ,r ,ri(x), mx, rx);
+        return f1 + f2;
     }
-
-    item calc(int l, int r)
+    itemType calc(int l, int r)
     {
         return calc(l, r, 0, 0, sz);
     }
