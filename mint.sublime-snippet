@@ -2,100 +2,100 @@
 	<content><![CDATA[
 const int MOD=hell;
 struct Mint {
-    int val;
+    int _val;
  
-    Mint(long long v = 0) {
-        if (v < 0)
-            v = v % MOD + MOD;
-        if (v >= MOD)
-            v %= MOD;
-        val = v;
+    Mint(long long _v = 0) {
+        if (_v < 0)
+            _v = _v % MOD + MOD;
+        if (_v >= MOD)
+            _v %= MOD;
+        _val = _v;
     }
  
-    static int mod_inv(int a, int m = MOD) {
-        int g = m, r = a, x = 0, y = 1;
-        while (r != 0) {
-            int q = g / r;
-            g %= r; swap(g, r);
-            x -= q * y; swap(x, y);
+    static int mod_inv(int _a, int _m = MOD) {
+        int _g = _m, _r = _a, _x = 0, _y = 1;
+        while (_r != 0) {
+            int q = _g / _r;
+            _g %= _r; swap(_g, _r);
+            _x -= q * _y; swap(_x, _y);
         } 
-        return x < 0 ? x + m : x;
+        return _x < 0 ? _x + _m : _x;
     } 
     explicit operator int() const {
-        return val;
+        return _val;
     }
     Mint& operator+=(const Mint &other) {
-        val += other.val;
-        if (val >= MOD) val -= MOD;
+        _val += other._val;
+        if (_val >= MOD) _val -= MOD;
         return *this;
     }
     Mint& operator-=(const Mint &other) {
-        val -= other.val;
-        if (val < 0) val += MOD;
+        _val -= other._val;
+        if (_val < 0) _val += MOD;
         return *this;
     }
-    static unsigned fast_mod(uint64_t x, unsigned m = MOD) {
+    static unsigned fast_mod(uint64_t _x, unsigned _m = MOD) {
            #if !defined(_WIN32) || defined(_WIN64)
-                return x % m;
+                return _x % _m;
            #endif
-           unsigned x_high = x >> 32, x_low = (unsigned) x;
+           unsigned x_high = _x >> 32, x_low = (unsigned) _x;
            unsigned quot, rem;
            asm("divl %4\n"
-            : "=a" (quot), "=d" (rem)
-            : "d" (x_high), "a" (x_low), "r" (m));
+            : "=_a" (quot), "=d" (rem)
+            : "d" (x_high), "_a" (x_low), "_r" (_m));
            return rem;
     }
     Mint& operator*=(const Mint &other) {
-        val = fast_mod((uint64_t) val * other.val);
+        _val = fast_mod((uint64_t) _val * other._val);
         return *this;
     }
     Mint& operator/=(const Mint &other) {
         return *this *= other.inv();
     }
-    friend Mint operator+(const Mint &a, const Mint &b) { return Mint(a) += b; }
-    friend Mint operator-(const Mint &a, const Mint &b) { return Mint(a) -= b; }
-    friend Mint operator*(const Mint &a, const Mint &b) { return Mint(a) *= b; }
-    friend Mint operator/(const Mint &a, const Mint &b) { return Mint(a) /= b; }
+    friend Mint operator+(const Mint &_a, const Mint &b) { return Mint(_a) += b; }
+    friend Mint operator-(const Mint &_a, const Mint &b) { return Mint(_a) -= b; }
+    friend Mint operator*(const Mint &_a, const Mint &b) { return Mint(_a) *= b; }
+    friend Mint operator/(const Mint &_a, const Mint &b) { return Mint(_a) /= b; }
     Mint& operator++() {
-        val = val == MOD - 1 ? 0 : val + 1;
+        _val = _val == MOD - 1 ? 0 : _val + 1;
         return *this;
     }
     Mint& operator--() {
-        val = val == 0 ? MOD - 1 : val - 1;
+        _val = _val == 0 ? MOD - 1 : _val - 1;
         return *this;
     }
     Mint operator++(int32_t) { Mint before = *this; ++*this; return before; }
     Mint operator--(int32_t) { Mint before = *this; --*this; return before; }
     Mint operator-() const {
-        return val == 0 ? 0 : MOD - val;
+        return _val == 0 ? 0 : MOD - _val;
     }
-    bool operator==(const Mint &other) const { return val == other.val; }
-    bool operator!=(const Mint &other) const { return val != other.val; }
+    bool operator==(const Mint &other) const { return _val == other._val; }
+    bool operator!=(const Mint &other) const { return _val != other._val; }
     Mint inv() const {
-        return mod_inv(val);
+        return mod_inv(_val);
     }
-    Mint power(long long p) const {
-        assert(p >= 0);
-        Mint a = *this, result = 1;
-        while (p > 0) {
-            if (p & 1)
-                result *= a;
+    Mint power(long long _p) const {
+        assert(_p >= 0);
+        Mint _a = *this, result = 1;
+        while (_p > 0) {
+            if (_p & 1)
+                result *= _a;
  
-            a *= a;
-            p >>= 1;
+            _a *= _a;
+            _p >>= 1;
         }
         return result;
     }
-    friend ostream& operator << (ostream &stream, const Mint &m) {
-        return stream << m.val;
+    friend ostream& operator << (ostream &stream, const Mint &_m) {
+        return stream << _m._val;
     }
-    friend istream& operator >> (istream &stream, Mint &m) {
-        return stream>>m.val;   
+    friend istream& operator >> (istream &stream, Mint &_m) {
+        return stream>>_m._val;   
     }
 };
 ]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- Optional: Set _a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>mint</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- Optional: Set _a scope to limit where the snippet will trigger -->
 	<!-- <scope>source.python</scope> -->
 </snippet>
