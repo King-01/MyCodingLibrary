@@ -1,42 +1,54 @@
 <snippet>
 	<content><![CDATA[
-ll fac[N];
-ll powe(ll x, ll y) 
-{ 
-    ll res = 1;
-  
-    x = x % hell;
-
-    while (y > 0) 
-    { 
-        if (y & 1) 
-            res = (res*x) % hell; 
-  
-        y = y>>1; 
-        x = (x*x) % hell; 
-    } 
-    return res; 
-} 
-  
-ll modInverse(ll n) 
-{ 
-    return powe(n, hell-2); 
-} 
-
-void fact()
-{ 
-    fac[0] = 1; 
-    rep(i, 1, N) 
-        fac[i] = fac[i-1]*i%hell;
+unsigned long long int fact[N];
+unsigned long long int inv[N];
+unsigned long long int xmod(unsigned long long int _a, unsigned long long int _m)
+{
+    return (((_a % _m) + _m) % _m);
 }
-// fact();   //just put it before the while loop so that all the factorials are computed 
-
-ll ncrmodp(ll n, ll r) 
-{ 
-   if (r==0) 
-      return 1; 
-    return (fac[n]* modInverse(fac[r]) % hell * modInverse(fac[n-r]) % hell) % hell; 
-}]]></content>
+unsigned long long int xmodpow(unsigned long long int _n, unsigned long long int _m, unsigned long long int _y)
+{
+    if(!_m)
+    {
+        return 1;
+    }
+    else
+    {
+        unsigned long long int _x = xmodpow(_n, _m >> 1, _y);
+        if(_m & 1)
+        {
+            return xmod((xmod((xmod(_x, _y)*xmod(_x, _y)), _y)*xmod(_n, _y)), _y);
+        }
+        else
+        {
+            return xmod((xmod(_x, _y)*xmod(_x, _y)), _y);
+        }
+    }
+}
+void pre(){
+    fact[0] = 1;
+    for(long long int i=1; i<N; i++){
+        fact[i] = (fact[i-1]*i)%MOD;
+    }
+    inv[N-1] = xmodpow(fact[N-1], MOD-2, MOD);
+    for(long long int i=N-2; i>=0; i--){
+        inv[i] = ((i+1)*inv[i+1])%MOD;
+    }
+}
+ 
+unsigned long long int ncr(unsigned long long int _N, unsigned long long int R){
+    if(R>_N){
+        return 0;
+    }
+    unsigned long long int ans = fact[_N];
+    ans*=inv[R];
+    ans%=MOD;
+    ans*=inv[_N-R];
+    ans%=MOD;
+    return ans;
+}
+ 
+ ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	 <tabTrigger>ncrmodp</tabTrigger> 
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->

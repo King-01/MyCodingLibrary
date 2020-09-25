@@ -1,0 +1,86 @@
+<snippet>
+	<content><![CDATA[
+template< typename T> 
+struct segtree{
+	int sz;
+	T NEUTRAL_ELEMENT;
+	T NO_OPERATION;
+	vector<T> operations, val;
+	void init(int f)
+	{
+		sz = 1;
+		while(sz < f)sz <<= 1;
+		val.assign(2 * sz ,0);
+		operations.assign(2 * sz ,0);
+		NEUTRAL_ELEMENT = 0;
+		NO_OPERATION = inf - 1;
+	}
+	T modify_op(T fi, T se, T len)
+	{
+		if(se == NO_OPERATION)return fi;
+		return se * len;
+	}
+	T calc_op(T fi ,T se)
+	{
+		return fi + se;
+	}
+	int le(int x){return 2 * x + 1;}
+	int ri(int x){return 2 * x + 2;}
+	void apply_mod_op(T &a, T b, T len)
+	{
+		a = modify_op(a, b, len);
+	}
+	void propagate(int x, int lx, int rx)
+	{
+		if(rx - lx == 1)return ;
+		int mx = (lx + rx) >> 1;
+		apply_mod_op(operations[le(x)], operations[x], 1);
+		apply_mod_op(val[le(x)], operations[x], mx - lx);
+		apply_mod_op(operations[ri(x)], operations[x], 1);
+		apply_mod_op(val[ri(x)], operations[x], rx - mx);
+		operations[x] = NO_OPERATION;
+	}
+	void upd(int l, int r, int val1, int x, int lx, int rx)
+	{
+		propagate(x, lx, rx);
+		if(l >= rx or r <= lx)return ;
+		if(l <= lx and r >= rx)
+		{
+			apply_mod_op(val[x], val1, rx - lx);
+			apply_mod_op(operations[x], val1, 1);
+			return ;
+		}
+		int mx = (lx + rx) >> 1;
+		upd(l, r, val1, le(x), lx, mx);
+		upd(l, r, val1, ri(x), mx, rx);
+		val[x] = calc_op(val[le(x)], val[ri(x)]);
+	}
+	void upd(int l, int r, int val1)
+	{
+		return upd(l, r, val1, 0, 0, sz);
+	}
+	T calc(int l, int r, int x, int lx, int rx)
+	{
+		propagate(x, lx, rx);
+		if(l >= rx or r <= lx)return NEUTRAL_ELEMENT;
+		if(l <= lx and r >= rx)
+		{
+			return val[x];
+		}
+		int mx = (lx + rx) >> 1;
+		auto m1 = calc(l, r, le(x), lx ,mx);
+		auto m2 = calc(l, r, ri(x), mx, rx);
+		auto res = calc_op(m1, m2);
+		return res;
+	}
+	T calc(int l, int r)
+	{
+		return calc(l, r, 0, 0 ,sz);
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>segmenttreelazypropagation</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
