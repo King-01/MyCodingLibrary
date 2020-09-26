@@ -41,8 +41,8 @@ struct Mint {
            unsigned x_high = _x >> 32, x_low = (unsigned) _x;
            unsigned quot, rem;
            asm("divl %4\n"
-            : "=_a" (quot), "=d" (rem)
-            : "d" (x_high), "_a" (x_low), "r" (_m));
+            : "=a" (quot), "=d" (rem)
+            : "d" (x_high), "a" (x_low), "r" (_m));
            return rem;
     }
     Mint& operator*=(const Mint &other) {
