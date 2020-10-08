@@ -83,7 +83,7 @@ int n, m, k, a[N];
 
 int32_t main()
 {
-    meminc;
+//    meminc;
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     cerr.precision(10);
