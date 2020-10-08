@@ -42,7 +42,7 @@ struct Mint {
            unsigned quot, rem;
            asm("divl %4\n"
             : "=_a" (quot), "=d" (rem)
-            : "d" (x_high), "_a" (x_low), "_r" (_m));
+            : "d" (x_high), "a" (x_low), "r" (_m));
            return rem;
     }
     Mint& operator*=(const Mint &other) {
@@ -93,6 +93,7 @@ struct Mint {
         return stream>>_m._val;   
     }
 };
+
 ]]></content>
 	<!-- Optional: Set _a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>mint</tabTrigger>
