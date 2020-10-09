@@ -85,12 +85,14 @@ int32_t main()
     cerr.precision(10);
     cout.precision(25);
     cout << fixed;
+    /*
     #ifdef LOCAL
     // for getting input from input.txt
     freopen("input.txt", "r", stdin);
     // for writing output to output.txt
     freopen("output.txt", "w", stdout);
     #endif
+    */
     int tests = 1;
     // cin >> tests;
     rep(test, 1, tests+1)
