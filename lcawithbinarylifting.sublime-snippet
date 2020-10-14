@@ -38,7 +38,7 @@ int lca(int _first, int _second)
     {
         return _second;
     }
-    for(int i = l; i > -1; i--)
+    for(int i = l - 1; i > -1; i--)
     {
         if(!is_ancestor(up[_first][i], _second))_first = up[_first][i];
     }
