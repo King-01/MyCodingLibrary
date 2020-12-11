@@ -1,14 +1,63 @@
 <snippet>
 	<content><![CDATA[
 
+/////////////////////////////////Source : https://codeforces.com/blog/entry/22229 ////////////////
+// Function used to calculate total number of divisors
+// Time Complexity : O(n log n)
+vector<int> divisors;
+void CalcNumOfDivisors(int lel = N)
+{
+    divisors.resize(lel, 0);
+    for (int i = 1; i <= lel; ++i)
+        for (int j = i; j <= lel; j += i)
+            ++divisors[j];
+
+}
+//Used to calculate sum of all divisors of a number
+// Time Complexity : O(n logn)  
+vector<int> sumdiv;
+void SumOfDivisors(int lel = N)
+{
+    sumdiv.resize(lel, 0);
+    for (int i = 1; i <= lel; ++i)
+        for (int j = i; j <= lel; j += i)
+            sumdiv[j] += i;
+}
+//used to calculate euler totient function
+//Time Complexity : O(n log log n)
+vector<int> totient;
+void EulerTotient(int lel = N)
+{
+    totient.resize(lel);
+    for (int i = 1; i <= lel; ++i){
+        totient[i] = i;
+    }
+    for (int i = 2; i <= lel; ++i)
+        if (totient[i] == i)
+            for (int j = i; j <= lel; j += i)
+                totient[j] -= totient[j] / i;
+}
+//used to calculate biggest prime divisor
+// Time Complexity : O(n log log n)
+vector<int> bigdiv;
+void BiggestPrimeDivisor(int lel = N)
+{
+    bigdiv.resize(lel, 1);
+    for (int i = 1; i <= lel; ++i)
+        if (bigdiv[i] == 1)
+            for (int j = i; j <= lel; j += i)
+                bigdiv[j] = i;
+}
+////////////////////////////////////////End////////////////////////////////////////////////////
 // Calculating SPF (Smallest Prime Factor) for every 
 // number till N. 
 // Time Complexity : O(nloglogn)
-int spf[N];
-void sieve() 
+vector<int> spf;
+void sieve(int lel = N) 
 { 
+    spf.resize(lel);
     spf[1] = 0; 
-    for (ll i=2; i<N; i++) 
+    for (ll i=2; i<lel; i++) 
   
         // marking smallest prime factor for every 
         // number to be itself. 
@@ -16,16 +65,16 @@ void sieve()
   
     // separately marking spf for every even 
     // number as 2 
-    for (ll i=4; i<N; i+=2) 
+    for (ll i=4; i<lel; i+=2) 
         spf[i] = 2; 
   
-    for (ll i=3; i*i<N; i++) 
+    for (ll i=3; i*i<lel; i++) 
     { 
         // checking if i is prime 
         if (spf[i] == i) 
         { 
             // marking SPF for all numbers divisible by i 
-            for (ll j=i*i; j<N; j+=i) 
+            for (ll j=i*i; j<lel; j+=i) 
   
                 // marking spf[j] if it is not  
                 // previously marked 
@@ -33,8 +82,7 @@ void sieve()
                     spf[j] = i; 
         } 
     } 
-} 
-  
+}
 // A O(log n) function returning primefactorization 
 // by dividing by smallest prime factor at every step 
 vi getFactorization(ll x) 

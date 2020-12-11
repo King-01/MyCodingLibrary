@@ -1,4 +1,5 @@
 {
+   "cpp_complete_enabled": false,
 	"tests_file_suffix": "__tests",
 	"run_settings": [
 		{

@@ -1,0 +1,72 @@
+<snippet>
+	<content><![CDATA[
+int sz[N];
+int big[N];
+int dfs1(int cur, int par)
+{
+    sz[cur] = 1;
+    for(auto it: adj[cur])
+    {
+        if(it == par)continue;
+        if(dfs1(it, cur) > sz[big[cur]])
+        {
+            big[cur] = it;
+        }
+        sz[cur] += sz[it];
+    }
+    return sz[cur];
+}
+int ans[N];
+void merge(map<int, int> &f1, map<int, int> &f2, int cur)
+{
+    for(auto it : f2)
+    {
+        f1[it.ff] += it.se;
+        if(f1[it.ff] > sz[cur])
+        {
+            sz[cur] = f1[it.ff];
+            ans[cur] = it.ff;
+        }
+        else if(f1[it.ff] == sz[cur])
+        {
+            ans[cur] += it.ff;
+        }
+    }
+    return ;
+}
+void dfs(int cur, int par, map<int, int> &keep)
+{
+    if(!big[cur])
+    {
+        ans[cur] = col[cur];
+        keep[col[cur]]++;
+        return ;
+    }
+    else
+    {
+        dfs(big[cur], cur, keep);
+        ans[cur] = ans[big[cur]];
+        sz[cur] = sz[big[cur]];
+    }
+    for(auto it : adj[cur])
+    {
+        if(it == par or it == big[cur])
+        {
+            continue;
+        }
+        map<int, int> re;
+        dfs(it, cur, re);
+        merge(keep, re, cur);
+    }
+
+    map<int, int> re;
+    re[col[cur]]++;
+    merge(keep, re, cur);
+    return ;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sackontree</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

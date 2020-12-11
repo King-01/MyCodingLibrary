@@ -1,0 +1,76 @@
+<snippet>
+	<content><![CDATA[
+vi parent, depth, heavy, head, pos;
+int cur_pos;
+int dfs(int cur)
+{
+	int sz = 1;
+	int maxChildSize= 0;
+	for(auto nex : adj[cur])
+	{
+		if(nex != parent[cur])
+		{
+			parent[nex] = cur;
+			depth[nex] = depth[cur] + 1;
+			int childSize = dfs(nex);
+			sz += childSize;
+			if(childSize > maxChildSize)
+			{
+				maxChildSize = childSize;
+				heavy[cur] = nex;
+			}
+		}
+	}
+	return sz;
+}
+void decompose(int cur, int hei)
+{
+	head[cur] = hei;
+	pos[cur] = cur_pos++;
+	if(heavy[cur] != -1)
+	{
+		decompose(heavy[cur], hei);
+	}
+	for(auto nex : adj[cur])
+	{
+		if(nex != parent[cur] and nex != heavy[cur])
+		{
+			decompose(nex, nex);
+		}
+	}
+}
+void init()
+{
+    parent = vector<int>(n + 1);
+    depth = vector<int>(n + 1);
+    heavy = vector<int>(n + 1, -1);
+    head = vector<int>(n + 1);
+    pos = vector<int>(n + 1);
+    cur_pos = 0;
+
+    dfs(1);
+    decompose(1, 1);
+}
+int query(int fi, int se)
+{
+	int res = 0;
+	for(;head[fi] != head[se];se = parent[head[se]])
+	{
+		if(depth[head[fi]] > depth[head[se]])swap(fi, se);
+		int curHeavyPath = st.calc(pos[head[se]], pos[se] + 1).val;
+		res = max(res, curHeavyPath);
+	}
+	if(depth[fi] > depth[se])
+	{
+		swap(fi, se);
+	}
+	int lastHeavyPath = st.calc(pos[fi] + 1, pos[se] + 1).val;
+	res = max(res, lastHeavyPath);
+	return res;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>hld</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

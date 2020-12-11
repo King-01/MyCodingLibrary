@@ -1,53 +1,53 @@
 <snippet>
 	<content><![CDATA[
-unsigned long long int fact[N];
-unsigned long long int inv[N];
-unsigned long long int xmod(unsigned long long int _a, unsigned long long int _m)
+
+int fact[N], invfact[N];
+
+int pow(int _a, int _b, int _m)
 {
-    return (((_a % _m) + _m) % _m);
+    int _ans=1;
+    while(_b)
+    {
+        if(_b&1)
+            _ans=(_ans*_a)%_m;
+        _b/=2;
+        _a=(_a*_a)%_m;
+    }
+    return _ans;
 }
-unsigned long long int xmodpow(unsigned long long int _n, unsigned long long int _m, unsigned long long int _y)
+
+int modinv(int _k)
 {
-    if(!_m)
+    return pow(_k, MOD-2, MOD);
+}
+
+void precompute()
+{
+    fact[0]=fact[1]=1;
+    for(int _i=2;_i<N;_i++)
     {
-        return 1;
+        fact[_i]=fact[_i-1]*_i;
+        fact[_i]%=MOD;
     }
-    else
+    invfact[N-1]=modinv(fact[N-1]);
+    for(int _i=N-2;_i>=0;_i--)
     {
-        unsigned long long int _x = xmodpow(_n, _m >> 1, _y);
-        if(_m & 1)
-        {
-            return xmod((xmod((xmod(_x, _y)*xmod(_x, _y)), _y)*xmod(_n, _y)), _y);
-        }
-        else
-        {
-            return xmod((xmod(_x, _y)*xmod(_x, _y)), _y);
-        }
+        invfact[_i]=invfact[_i+1]*(_i+1);
+        invfact[_i]%=MOD;
     }
 }
-void pre(){
-    fact[0] = 1;
-    for(long long int i=1; i<N; i++){
-        fact[i] = (fact[i-1]*i)%MOD;
-    }
-    inv[N-1] = xmodpow(fact[N-1], MOD-2, MOD);
-    for(long long int i=N-2; i>=0; i--){
-        inv[i] = ((i+1)*inv[i+1])%MOD;
-    }
-}
- 
-unsigned long long int ncr(unsigned long long int _N, unsigned long long int R){
-    if(R>_N){
+
+int nCr(int _x, int _y)
+{
+    if(_y>_x)
         return 0;
-    }
-    unsigned long long int ans = fact[_N];
-    ans*=inv[R];
-    ans%=MOD;
-    ans*=inv[_N-R];
-    ans%=MOD;
-    return ans;
+    int _num=fact[_x];
+    _num*=invfact[_y];
+    _num%=MOD;
+    _num*=invfact[_x-_y];
+    _num%=MOD;
+    return _num;
 }
- 
  ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	 <tabTrigger>ncrmodp</tabTrigger> 
