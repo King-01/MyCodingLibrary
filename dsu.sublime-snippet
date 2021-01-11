@@ -17,7 +17,10 @@ public:
             root[i] = i;
         }
     }
-    
+    int get_component(int ffao = -1)
+    {
+         return seg;
+    }
     int find_set(int _v)
     {
         while(_v != root[_v]){
